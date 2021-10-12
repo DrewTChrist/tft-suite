@@ -57,6 +57,7 @@ def networks(height, width, draw, image, display):
     top = padding
     bottom = height - padding
     x = 0
+    y = 0
 
     #while True:
     while getattr(t, "do_run", True):
@@ -73,9 +74,10 @@ def networks(height, width, draw, image, display):
         nets = '\n'.join([f"{x['ESSID']} - Key:{x['Encryption key']}" for x in iwlist_parser(nets)])
 
         # Write four lines of text.
-        y = top
         #draw.text((x, y), nets, font=font, fill="#FFFFFF")
-        draw.text((0, 0), nets, font=font, fill="#FFFFFF")
+        draw.text((0, y), nets, font=font, fill="#FFFFFF")
+
+        y -= 10
 
         # Display image.
         display.image(image, rotation)
