@@ -4,7 +4,6 @@ import digitalio
 import board
 
 from PIL import Image, ImageDraw, ImageFont
-from adafruit_rgb_display.rgb import color565
 import adafruit_rgb_display.st7789 as st7789
 
 from screens import screens
@@ -53,46 +52,36 @@ x = 0
 
 font = ImageFont.truetype("usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
 
-colors = [color565(255, 0, 0),color565(0, 0, 255),color565(0, 255, 0)]
+screens = [
+    screens.fill_red, 
+    screens.fill_green, 
+    screens.fill_blue, 
+    screens.stats, 
+    screens.networks
+]
 
-def fill_red(height, width, draw, image, display):
-    t = threading.currentThread()
-    while getattr(t, "do_run", True):
-        display.fill(colors[0])
+screen_idx = 0
 
-def fill_blue(height, width, draw, image, display):
-    t = threading.currentThread()
-    while getattr(t, "do_run", True):
-        display.fill(colors[1])
-
-def fill_green(height, width, draw, image, display):
-    t = threading.currentThread()
-    while getattr(t, "do_run", True):
-        display.fill(colors[2])
-
-screens = [fill_red, fill_green, fill_blue, screens.stats, screens.networks]
-idx = 0
-
-screenthread = threading.Thread(target=lambda: screens[idx](height, width, draw, image, display))
+screenthread = threading.Thread(target=lambda: screens[screen_idx](height, width, draw, image, display))
 screenthread.start()
 
 # Main loop:
 while True:
 
     if buttonA.value and not buttonB.value:
-        if abs(idx - 1) < len(screens):
-            idx = idx - 1
+        if abs(screen_idx - 1) < len(screens):
+            screen_idx = screen_idx - 1
         else:
-            idx = 0
+            screen_idx = 0
         screenthread.do_run = False
         screenthread.join()
         time.sleep(0.5)
 
     if buttonB.value and not buttonA.value:
-        if abs(idx + 1) < len(screens):
-            idx = idx + 1
+        if abs(screen_idx + 1) < len(screens):
+            screen_idx = screen_idx + 1
         else:
-            idx = 0
+            screen_idx = 0
         screenthread.do_run = False
         screenthread.join()
         time.sleep(0.5)
@@ -102,7 +91,7 @@ while True:
         time.sleep(0.5)
 
     if not screenthread.is_alive():
-        screenthread = threading.Thread(target=lambda: screens[idx](height, width, draw, image, display))
+        screenthread = threading.Thread(target=lambda: screens[screen_idx](height, width, draw, image, display))
         screenthread.do_run = True
         screenthread.start()
 

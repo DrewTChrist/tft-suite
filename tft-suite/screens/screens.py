@@ -2,9 +2,11 @@ import threading
 import time
 import subprocess
 
+from adafruit_rgb_display.rgb import color565
 from PIL import ImageFont
 from cmd_parser import iwlist_parser
 
+colors = [color565(255, 0, 0),color565(0, 0, 255),color565(0, 255, 0)]
 
 def stats(height, width, draw, image, display):
     t = threading.currentThread()
@@ -82,3 +84,19 @@ def networks(height, width, draw, image, display):
         # Display image.
         display.image(image, rotation)
         time.sleep(0.1)
+
+def fill_red(height, width, draw, image, display):
+    t = threading.currentThread()
+    while getattr(t, "do_run", True):
+        display.fill(colors[0])
+
+def fill_blue(height, width, draw, image, display):
+    t = threading.currentThread()
+    while getattr(t, "do_run", True):
+        display.fill(colors[1])
+
+def fill_green(height, width, draw, image, display):
+    t = threading.currentThread()
+    while getattr(t, "do_run", True):
+        display.fill(colors[2])
+
