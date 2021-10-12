@@ -3,6 +3,7 @@ import time
 import subprocess
 
 from PIL import ImageFont
+from cmd_parser import iwlist_parser
 
 
 def stats(height, width, draw, image, display):
@@ -66,8 +67,10 @@ def networks(height, width, draw, image, display):
         # https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
         #cmd = 'iwlist wlan0 scan | grep "ESSID:"'
         #sudo iwlist wlan0 scan | awk -F ':' '/ESSID:/ {if ($2 != "\"\""){print $2;}}'
-        cmd = r"""sudo iwlist wlan0 scan | awk -F ':' '/ESSID:/ {if ($2 != "\"\""){print $2;}}'"""
+        #cmd = r"""sudo iwlist wlan0 scan | awk -F ':' '/ESSID:/ {if ($2 != "\"\""){print $2;}}'"""
+        cmd = 'iwlist wlan0 scan'
         nets = subprocess.check_output(cmd, shell=True).decode("utf-8")
+        nets = '\n'.join([f"{x['ESSID']} - Key:{x['Encryption key']}" for x in iwlist_parser(nets)])
 
         # Write four lines of text.
         y = top
