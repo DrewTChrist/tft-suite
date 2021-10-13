@@ -2,12 +2,11 @@ import digitalio
 import board
 import adafruit_rgb_display.st7789 as st7789
 from PIL import Image, ImageDraw, ImageFont
-from screens import screens
-from switcher import Switcher
+from tft_suite.switcher import Switcher
 
 class Display:
 
-    def __init__(self):
+    def __init__(self, screens=None):
 
         self.display = None
         self.backlight = None
@@ -17,7 +16,7 @@ class Display:
         self.width = None
         self.image = None
         self.draw = None
-        self.screens = []
+        self.screens = [] if not screens else screens
 
         self.initialize_hardware()
         self.initialize_drawables()
@@ -25,7 +24,7 @@ class Display:
 
         self.switcher = Switcher(self.screens)
 
-    def initalize_hardware(self):
+    def initialize_hardware(self):
         # Create the ST7789 display:
         self.display = st7789.ST7789(
             board.SPI(),
@@ -50,8 +49,8 @@ class Display:
 
     def initialize_drawables(self):
         # flip these because the display is horizontal
-        self.height = display.width
-        self.width = display.height
+        self.height = self.display.width
+        self.width = self.display.height
 
         self.image = Image.new("RGB", (self.width, self.height))
         rotation = 90
@@ -62,14 +61,38 @@ class Display:
 
         self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
 
-    def initalize_screens(self):
-        self.screens = [
-            screens.fill_red, 
-            screens.fill_green, 
-            screens.fill_blue, 
-            screens.stats, 
-            screens.networks
-        ]
+    def initialize_screens(self):
+        for s in self.screens:
+            s = s(
+                **{
+                    self.height,
+                    self.width,
+                    self.draw,
+                    self.image,
+                    self.display
+                }
+            )
+
+    def enable_backlight(self):
+        self.backlight.value = True
         
     def toggle_backlight(self):
         self.backlight.value = not self.backlight.value
+
+    def start(self):
+        while True:
+            if self.buttonA.value and not self.buttonB.value:
+                self.switcher.switch_up()
+                time.sleep(0.5)
+
+            if self.buttonB.value and not self.buttonA.value:
+                self.switcher.switch_up()
+                time.sleep(0.5)
+
+            if not self.buttonA.value and not self.buttonB.value:
+                backlight.value = not backlight.value
+                time.sleep(0.5)
+
+            self.switcher.create_thread()
+
+
