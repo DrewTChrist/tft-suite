@@ -19,6 +19,19 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'Adafruit-Blinka',
+        'adafruit-circuitpython-busdevice',
+        'adafruit-circuitpython-rgb-display',
+        'Adafruit-PlatformDetect',
+        'Adafruit-PureIO',
+        'Pillow',
+        'pyftdi',
+        'pyserial',
+        'pyusb',
+        'rpi-ws281x',
+        'RPi.GPIO',
+        'sysv-ipc'
+    ],
     entry_points={'console_scripts': [],},
 )
