@@ -90,7 +90,7 @@ class Display:
 
             # Both buttons are pushed
             if not self.buttonA.value and not self.buttonB.value:
-                backlight.value = not backlight.value
+                self.toggle_backlight()
                 time.sleep(0.5)
 
             self.switcher.create_thread()
