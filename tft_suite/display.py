@@ -52,8 +52,8 @@ class Display:
         self.backlight.switch_to_output()
         self.backlight.value = True
 
-        self.buttonA = digitalio.DigitalInOut(board.D23)
-        self.buttonB = digitalio.DigitalInOut(board.D24)
+        self.buttonA = digitalio.DigitalInOut(board.D24)
+        self.buttonB = digitalio.DigitalInOut(board.D23)
 
         self.buttonA.switch_to_input()
         self.buttonB.switch_to_input()
@@ -84,9 +84,9 @@ class Display:
                 time.sleep(0.5)
 
             # B button is pushed
-            if self.buttonB.value and not self.buttonA.value:
-                self.switcher.switch_up()
-                time.sleep(0.5)
+            #if self.buttonB.value and not self.buttonA.value:
+            #    self.switcher.switch_up()
+            #    time.sleep(0.5)
 
             # Both buttons are pushed
             if not self.buttonA.value and not self.buttonB.value:
