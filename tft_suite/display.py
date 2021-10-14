@@ -1,3 +1,5 @@
+import time
+
 import digitalio
 import board
 import adafruit_rgb_display.st7789 as st7789
@@ -5,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 from tft_suite.switcher import Switcher
 
 class Display:
+    """Display class representing an Adafruit Mini PiTFT"""
 
     def __init__(self, screens=None):
 
@@ -20,9 +23,17 @@ class Display:
 
         self.initialize_hardware()
         self.initialize_drawables()
-        self.initialize_screens()
 
-        self.switcher = Switcher(self.screens)
+        self.switcher = Switcher(
+            self.screens,
+            **{
+                'height': self.height,
+                'width': self.width,
+                'draw': self.draw,
+                'image': self.image,
+                'display': self.display
+            }
+        )
 
     def initialize_hardware(self):
         # Create the ST7789 display:
@@ -59,20 +70,6 @@ class Display:
         self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=(0,0,0))
         self.display.image(self.image, rotation)
 
-        self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
-
-    def initialize_screens(self):
-        for s in self.screens:
-            s = s(
-                **{
-                    self.height,
-                    self.width,
-                    self.draw,
-                    self.image,
-                    self.display
-                }
-            )
-
     def enable_backlight(self):
         self.backlight.value = True
         
@@ -81,14 +78,17 @@ class Display:
 
     def start(self):
         while True:
+            # A button is pushed
             if self.buttonA.value and not self.buttonB.value:
                 self.switcher.switch_up()
                 time.sleep(0.5)
 
+            # B button is pushed
             if self.buttonB.value and not self.buttonA.value:
                 self.switcher.switch_up()
                 time.sleep(0.5)
 
+            # Both buttons are pushed
             if not self.buttonA.value and not self.buttonB.value:
                 backlight.value = not backlight.value
                 time.sleep(0.5)

@@ -1,17 +1,21 @@
+import subprocess
+import threading
+import time
+
 from tft_suite.screens.screen import Screen
-from cmd_parser import iwlist_parser
+from tft_suite.cmd_parser import iwlist_parser
 
 class NetworksScreen(Screen):
 
-    def __init__(self, height, width, draw, image, display):
-        super().__init__(self, height, width, draw, image, display)
+    def __init__(self, **kwargs):
+        super(NetworksScreen, self).__init__(**kwargs)
 
     def run(self):
         t = threading.currentThread()
         rotation = 90
         padding = -2
         top = padding
-        bottom = height - padding
+        bottom = self.height - padding
         x = 0
         y = 0
 

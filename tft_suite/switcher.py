@@ -2,19 +2,22 @@ import threading
 import time
 
 class Switcher:
+    """ This class is responsible for switching between screens and managing
+        threads for those screens.
+    """
 
     def __init__(self, screens, **kwargs):
         self.screens = screens
         self.index = 0
-        self.display = kwargs
-        self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**kwargs).run())
+        self.args = kwargs
+        self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**self.args).run())
 
     def start(self):
         self.screenthread.start()
 
     def create_thread(self):
         if not self.screenthread.is_alive():
-            self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**kwargs).run())
+            self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**self.args).run())
             self.screenthread.do_run = True
             self.screenthread.start()
 

@@ -1,4 +1,9 @@
+""" This module will hold callable classes used to 
+    aid in parsing commands for screens.
+"""
+
 class IwlistParser:
+    """Parses information from the iwlist command for raspberry pi"""
     
     def __call__(self, iwlist):
         lines = iwlist.split('\n')
