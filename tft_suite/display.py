@@ -85,7 +85,7 @@ class Display:
 
             # B button is pushed
             if self.buttonB.value and not self.buttonA.value:
-                self.switcher.switch_up()
+                self.switcher.switch_down()
                 time.sleep(0.5)
 
             # Both buttons are pushed

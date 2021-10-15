@@ -9,5 +9,7 @@ if __name__ == '__main__':
         (StatsScreen, ()),
         (NetworksScreen, ()),
         (ColorScreen, ((255, 0, 0),)),
-        (ImageScreen, (('/home/pi/python/tft_suite/python.jpg'),))
+        (ColorScreen, ((0, 255, 0),)),
+        (ColorScreen, ((0, 0, 255),)),
+        (ImageScreen, (('/home/pi/python/python.jpg'),))
     ]).start()
