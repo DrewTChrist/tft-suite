@@ -57,7 +57,7 @@ class HelloWorldScreen(Screen):
 After your screen is created, import it and add it to the list of Screens in your
 Display class like the first example.
 
-![gif](https://drive.google.com/uc?export=view&id=1oyIxXP4qroa86PdKsRkm90BOQx5629hk)
+![gif](https://drive.google.com/uc?export=view&id=1BJnZUrAmg03JISMqwGYimUwBA3INzrGA)
 
 When the code is running, screens can be cycled through with either of the two buttons.
 The backlight can be turned off by quickly pressing both buttons at the same time.
