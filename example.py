@@ -11,5 +11,4 @@ if __name__ == '__main__':
         (ColorScreen, ((255, 0, 0),)),
         (ColorScreen, ((0, 255, 0),)),
         (ColorScreen, ((0, 0, 255),)),
-        (ImageScreen, (('/home/pi/python/python.jpg'),))
     ]).start()
