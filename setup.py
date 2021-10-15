@@ -11,14 +11,13 @@ setuptools.setup(
     description="",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/drewtchrist",
+    url="https://github.com/drewtchrist/tft-suite",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
     ],
     python_requires='>=3.6',
-    include_package_data=True,
     install_requires=[
         'Adafruit-Blinka',
         'adafruit-circuitpython-busdevice',
