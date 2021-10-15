@@ -51,13 +51,16 @@ class HelloWorldScreen(Screen):
         t = threading.currentThread()
 
         while getattr(t, "do_run", True):
-            self.draw.text((x, y), "Hello, World!", font=self.font, fill="#FF00FF")
+            rotation = 90
+            self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
+            self.draw.text((0, 0), "Hello, World!", font=self.font, fill="#FF00FF")
+            self.display.image(self.image, rotation)
 ```
 
 After your screen is created, import it and add it to the list of Screens in your
 Display class like the first example.
 
-![gif](https://drive.google.com/uc?export=view&id=1BJnZUrAmg03JISMqwGYimUwBA3INzrGA)
+![tft-suite gif](https://drive.google.com/uc?export=view&id=1BJnZUrAmg03JISMqwGYimUwBA3INzrGA)
 
 When the code is running, screens can be cycled through with either of the two buttons.
 The backlight can be turned off by quickly pressing both buttons at the same time.
