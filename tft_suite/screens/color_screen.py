@@ -4,10 +4,11 @@ import time
 
 from adafruit_rgb_display.rgb import color565
 
-class RedScreen(Screen):
+class ColorScreen(Screen):
     
-    def __init__(self, **kwargs):
-        super(RedScreen, self).__init__(**kwargs)
+    def __init__(self, rgb, **kwargs):
+        super(ColorScreen, self).__init__(**kwargs)
+        self.rgb = rgb
 
     def run(self):
         t = threading.currentThread()
@@ -20,7 +21,7 @@ class RedScreen(Screen):
         while getattr(t, "do_run", True):
             # Draw a black filled box to clear the image.
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-            self.display.fill(color565(255, 0, 0))
+            self.display.fill(color565(self.rgb[0], self.rgb[1], self.rgb[2]))
 
 
 

@@ -10,14 +10,14 @@ class Switcher:
         self.screens = screens
         self.index = 0
         self.args = kwargs
-        self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**self.args).run())
+        self.screenthread = threading.Thread(target=lambda: self.screens[self.index][0](*self.screens[self.index][1], **self.args).run())
 
     def start(self):
         self.screenthread.start()
 
     def create_thread(self):
         if not self.screenthread.is_alive():
-            self.screenthread = threading.Thread(target=lambda: self.screens[self.index](**self.args).run())
+            self.screenthread = threading.Thread(target=lambda: self.screens[self.index][0](*self.screens[self.index][1], **self.args).run())
             self.screenthread.do_run = True
             self.screenthread.start()
 
