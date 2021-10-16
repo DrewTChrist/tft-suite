@@ -15,6 +15,12 @@ class Screen(abc.ABC):
        self.display = kwargs['display']
        self.font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
 
-    @abc.abstractmethod
     def run(self):
+        t = threading.currentThread()
+        while getattr(t, "do_run", True):
+            self.draw_screen()
+
+    @abc.abstractmethod
+    def draw_screen(self):
         pass
+
