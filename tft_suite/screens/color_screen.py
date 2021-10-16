@@ -10,18 +10,12 @@ class ColorScreen(Screen):
         super(ColorScreen, self).__init__(**kwargs)
         self.rgb = rgb
 
-    def run(self):
-        t = threading.currentThread()
-        rotation = 90
-        padding = -2
-        top = padding
-        bottom = self.height - padding
-        x = 0
+    def draw_screen(self):
+        # Draw a black filled box to clear the image.
+        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
 
-        while getattr(t, "do_run", True):
-            # Draw a black filled box to clear the image.
-            self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-            self.display.fill(color565(self.rgb[0], self.rgb[1], self.rgb[2]))
+        # Fill the screen with the current class rgb
+        self.display.fill(color565(self.rgb[0], self.rgb[1], self.rgb[2]))
 
 
 

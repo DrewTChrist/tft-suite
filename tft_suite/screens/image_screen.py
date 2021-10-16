@@ -36,13 +36,5 @@ class ImageScreen(Screen):
         y = scaled_height // 2 - self.height // 2
         self.picture = self.picture.crop((x, y, x + self.width, y + self.height))
     
-    def run(self):
-        t = threading.currentThread()
-        rotation = 90
-        padding = -2
-        top = padding
-        bottom = self.height - padding
-        x = 0
-
-        while getattr(t, "do_run", True):
-            self.display.image(self.picture)
+    def draw_screen(self):
+        self.display.image(self.picture)

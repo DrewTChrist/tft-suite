@@ -47,14 +47,11 @@ class HelloWorldScreen(Screen):
     def __init__(self, **kwargs):
         super(HelloWorldScreen, self).__init__(**kwargs)
 
-    def run(self):
-        t = threading.currentThread()
-
-        while getattr(t, "do_run", True):
-            rotation = 90
-            self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-            self.draw.text((0, 0), "Hello, World!", font=self.font, fill="#FF00FF")
-            self.display.image(self.image, rotation)
+    def draw_screen(self):
+        rotation = 90
+        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
+        self.draw.text((0, 0), "Hello, World!", font=self.font, fill="#FF00FF")
+        self.display.image(self.image, rotation)
 ```
 
 After your screen is created, import it and add it to the list of Screens in your
