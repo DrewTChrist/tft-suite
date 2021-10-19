@@ -39,8 +39,6 @@ later on, but the example below should be enough to get someone started.
 
 ```python
 from tft_suite.screens.screen import Screen
-import threading
-import time
 
 class HelloWorldScreen(Screen):
 
