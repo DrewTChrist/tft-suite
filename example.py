@@ -5,7 +5,7 @@ from tft_suite.screens.color_screen import ColorScreen
 from tft_suite.screens.image_screen import ImageScreen
 
 if __name__ == '__main__':
-    Display([
+    Display((135, 240), [
         (StatsScreen, ()),
         (NetworksScreen, ()),
         (ColorScreen, ((255, 0, 0),)),

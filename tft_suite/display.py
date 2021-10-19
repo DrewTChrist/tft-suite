@@ -9,19 +9,26 @@ from tft_suite.switcher import Switcher
 class Display:
     """Display class representing an Adafruit Mini PiTFT"""
 
-    def __init__(self, screens=None):
+    def __init__(self, size, screens=None):
 
+        # hardware
         self.display = None
         self.backlight = None
         self.buttonA = None
         self.buttonB = None
-        self.height = None
+
+        # size
         self.width = None
+        self.height = None
+
+        # drawables
         self.image = None
         self.draw = None
+
+        # screens
         self.screens = [] if not screens else screens
 
-        self.initialize_hardware()
+        self.initialize_hardware(size)
         self.initialize_drawables()
 
         self.switcher = Switcher(
@@ -35,7 +42,17 @@ class Display:
             }
         )
 
-    def initialize_hardware(self):
+    def set_offsets(self, size):
+        if size[0] == 135:
+            self.display.x_offset = 53
+            self.display.y_offset = 40
+            #self.display.rotation = 90
+        elif size[0] == 240:
+            self.display.y_offset = 80
+        #    self.display.rotation = 180
+
+
+    def initialize_hardware(self, size):
         # Create the ST7789 display:
         self.display = st7789.ST7789(
             board.SPI(),
@@ -43,10 +60,10 @@ class Display:
             dc=digitalio.DigitalInOut(board.D25),
             rst=None,
             baudrate=64000000,  # The pi can be very fast!
-            width=135,
-            height=240,
+            width=size[0],
+            height=size[1],
             x_offset=53,
-            y_offset=40,
+            y_offset=40
         )
         self.backlight = digitalio.DigitalInOut(board.D22)
         self.backlight.switch_to_output()
@@ -57,6 +74,8 @@ class Display:
 
         self.buttonA.switch_to_input()
         self.buttonB.switch_to_input()
+
+        self.set_offsets(size)
 
     def initialize_drawables(self):
         # flip these because the display is horizontal
