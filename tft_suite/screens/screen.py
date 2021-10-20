@@ -18,7 +18,12 @@ class Screen(abc.ABC):
     def run(self):
         t = threading.currentThread()
         while getattr(t, "do_run", True):
-            self.draw_screen()
+            try:
+                self.draw_screen()
+            except subprocess.CalledProcessError:
+                t.do_run = False
+                t.join()
+
 
     @abc.abstractmethod
     def draw_screen(self):

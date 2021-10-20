@@ -78,21 +78,26 @@ class Display:
 
     def start(self):
         while True:
-            # A button is pushed
-            if self.buttonA.value and not self.buttonB.value:
-                self.switcher.switch_up()
-                time.sleep(0.5)
+            try:
+                # A button is pushed
+                if self.buttonA.value and not self.buttonB.value:
+                    self.switcher.switch_up()
+                    time.sleep(0.5)
 
-            # B button is pushed
-            if self.buttonB.value and not self.buttonA.value:
-                self.switcher.switch_down()
-                time.sleep(0.5)
+                # B button is pushed
+                if self.buttonB.value and not self.buttonA.value:
+                    self.switcher.switch_down()
+                    time.sleep(0.5)
 
-            # Both buttons are pushed
-            if not self.buttonA.value and not self.buttonB.value:
-                self.toggle_backlight()
-                time.sleep(0.5)
+                # Both buttons are pushed
+                if not self.buttonA.value and not self.buttonB.value:
+                    self.toggle_backlight()
+                    time.sleep(0.5)
 
-            self.switcher.create_thread()
+                self.switcher.create_thread()
+            except KeyboardInterrupt:
+                self.switcher.screenthread.do_run = False
+                self.switcher.screenthread.join()
+                exit()
 
 
