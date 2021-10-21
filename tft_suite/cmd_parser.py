@@ -3,14 +3,14 @@
 """
 
 class IwlistParser:
-    """Parses information from the iwlist command for raspberry pi"""
+    """Parses information from iwlist"""
     
-    def __call__(self, iwlist):
-        lines = iwlist.split('\n')
-        networks = []
+    def __call__(self, iwlist: str) -> list:
+        lines: list[str] = iwlist.split('\n')
+        networks: list[dict] = []
         for i in range(len(lines)):
             if 'Cell' in lines[i]:
-                n = {
+                n: dict = {
                     'Address': lines[i].strip(),
                     'Channel': lines[i+1].strip(),
                     'Frequency': lines[i+2].strip(),
@@ -21,4 +21,4 @@ class IwlistParser:
                 networks.append(n)
         return networks
     
-iwlist_parser = IwlistParser()
+iwlist_parser: IwlistParser = IwlistParser()
