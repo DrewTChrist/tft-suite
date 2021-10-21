@@ -6,10 +6,10 @@ import subprocess
 
 class StatsScreen(Screen):
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super(StatsScreen, self).__init__(**kwargs)
 
-    def draw_screen(self):
+    def draw_screen(self) -> None:
         rotation = 90
         padding = -2
         top = padding
