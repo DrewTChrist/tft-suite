@@ -67,7 +67,6 @@ class Display:
         rotation = 90
 
         self.draw = ImageDraw.Draw(self.image)
-        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=(0,0,0))
         self.display.image(self.image, rotation)
 
     def enable_backlight(self):
@@ -76,28 +75,52 @@ class Display:
     def toggle_backlight(self):
         self.backlight.value = not self.backlight.value
 
+    def buttonA_pressed(self):
+        return self.buttonA.value and not self.buttonB.value
+
+    def buttonB_pressed(self):
+        return self.buttonB.value and not self.buttonA.value
+
+    def buttons_pressed(self):
+        return not self.buttonA.value and not self.buttonB.value
+
     def start(self):
+        self.switcher.start()
         while True:
             try:
                 # A button is pushed
-                if self.buttonA.value and not self.buttonB.value:
-                    self.switcher.switch_up()
-                    time.sleep(0.5)
+                if self.buttonA_pressed():
+                    if self.switcher.running:
+                        self.switcher.switch_up()
+                        time.sleep(0.5)
+                    #else:
+                    #    print('buttonA switcher is not running')
 
                 # B button is pushed
-                if self.buttonB.value and not self.buttonA.value:
-                    self.switcher.switch_down()
-                    time.sleep(0.5)
+                if self.buttonB_pressed():
+                    if self.switcher.running:
+                        self.switcher.switch_down()
+                        time.sleep(0.5)
+                    #else:
+                    #    print('buttonB switcher is not running')
 
                 # Both buttons are pushed
-                if not self.buttonA.value and not self.buttonB.value:
+                if self.buttons_pressed():
                     self.toggle_backlight()
                     time.sleep(0.5)
+                    #print(self.switcher.screenthread.is_alive())
+                    #print(f'switcher running: {self.switcher.running}')
+                    if self.switcher.running:
+                        self.switcher.stop()
+                        #print('switcher stopped')
+                    else:
+                        self.switcher.start()
+                        #print('switcher started')
 
-                self.switcher.create_thread()
+                    time.sleep(0.5)
+                
             except KeyboardInterrupt:
-                self.switcher.screenthread.do_run = False
-                self.switcher.screenthread.join()
+                self.switcher.stop()
                 exit()
 
 
