@@ -1,16 +1,19 @@
+from typing import Dict, List
 """ This module will hold callable classes used to 
     aid in parsing commands for screens.
 """
 
+ParsedNetwork = Dict[str, str]
+
 class IwlistParser:
     """Parses information from iwlist"""
     
-    def __call__(self, iwlist: str) -> list:
-        lines: list[str] = iwlist.split('\n')
-        networks: list[dict] = []
+    def __call__(self, iwlist: str) -> List[ParsedNetwork]:
+        lines: List[str] = iwlist.split('\n')
+        networks: List[ParsedNetwork] = []
         for i in range(len(lines)):
             if 'Cell' in lines[i]:
-                n: dict = {
+                n: ParsedNetwork = {
                     'Address': lines[i].strip(),
                     'Channel': lines[i+1].strip(),
                     'Frequency': lines[i+2].strip(),
@@ -21,4 +24,4 @@ class IwlistParser:
                 networks.append(n)
         return networks
     
-iwlist_parser: IwlistParser = IwlistParser()
+iwlist_parser = IwlistParser()
