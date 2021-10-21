@@ -7,10 +7,10 @@ from tft_suite.cmd_parser import iwlist_parser
 
 class NetworksScreen(Screen):
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super(NetworksScreen, self).__init__(**kwargs)
 
-    def draw_screen(self):
+    def draw_screen(self) -> None:
         rotation = 90
         y = 0
 
