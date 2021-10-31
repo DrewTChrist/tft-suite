@@ -44,5 +44,6 @@ class StatsScreen(Screen):
         self.draw.text((x, y), Temp, font=self.font, fill="#FF00FF")
 
         # Display image.
-        self.display.image(self.image, rotation)
+        #self.display.image(self.image, rotation)
+        self.display.image(self.image)
         time.sleep(0.1)

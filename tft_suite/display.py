@@ -9,19 +9,26 @@ from tft_suite.switcher import Switcher
 class Display:
     """Display class representing an Adafruit Mini PiTFT"""
 
-    def __init__(self, screens=None):
+    def __init__(self, size, screens=None):
 
+        # hardware
         self.display = None
         self.backlight = None
         self.buttonA = None
         self.buttonB = None
-        self.height = None
+
+        # size
         self.width = None
+        self.height = None
+
+        # drawables
         self.image = None
         self.draw = None
+
+        # screens
         self.screens = [] if not screens else screens
 
-        self.initialize_hardware()
+        self.initialize_hardware(size)
         self.initialize_drawables()
 
         self.switcher = Switcher(
@@ -35,19 +42,37 @@ class Display:
             }
         )
 
-    def initialize_hardware(self):
+    def create_display(self, size):
+        if size[0] == 135:
+            return st7789.ST7789(
+                board.SPI(),
+                cs=digitalio.DigitalInOut(board.CE0),
+                dc=digitalio.DigitalInOut(board.D25),
+                rst=None,
+                baudrate=64000000,  # The pi can be very fast!
+                width=size[0],
+                height=size[1],
+                x_offset=53,
+                y_offset=40,
+                rotation=90
+            )
+        elif size[0] == 240:
+            return st7789.ST7789(
+                board.SPI(),
+                cs=digitalio.DigitalInOut(board.CE0),
+                dc=digitalio.DigitalInOut(board.D25),
+                rst=None,
+                baudrate=64000000,  # The pi can be very fast!
+                width=size[0],
+                height=size[1],
+                y_offset=80,
+                rotation=180
+            )
+
+
+    def initialize_hardware(self, size):
         # Create the ST7789 display:
-        self.display = st7789.ST7789(
-            board.SPI(),
-            cs=digitalio.DigitalInOut(board.CE0),
-            dc=digitalio.DigitalInOut(board.D25),
-            rst=None,
-            baudrate=64000000,  # The pi can be very fast!
-            width=135,
-            height=240,
-            x_offset=53,
-            y_offset=40,
-        )
+        self.display = self.create_display(size)
         self.backlight = digitalio.DigitalInOut(board.D22)
         self.backlight.switch_to_output()
         self.backlight.value = True
@@ -58,31 +83,37 @@ class Display:
         self.buttonA.switch_to_input()
         self.buttonB.switch_to_input()
 
+
     def initialize_drawables(self):
         # flip these because the display is horizontal
         self.height = self.display.width
         self.width = self.display.height
 
         self.image = Image.new("RGB", (self.width, self.height))
-        rotation = 90
 
         self.draw = ImageDraw.Draw(self.image)
-        self.display.image(self.image, rotation)
+        self.display.image(self.image)
+
 
     def enable_backlight(self):
         self.backlight.value = True
         
+
     def toggle_backlight(self):
         self.backlight.value = not self.backlight.value
+
 
     def buttonA_pressed(self):
         return self.buttonA.value and not self.buttonB.value
 
+
     def buttonB_pressed(self):
         return self.buttonB.value and not self.buttonA.value
 
+
     def buttons_pressed(self):
         return not self.buttonA.value and not self.buttonB.value
+
 
     def start(self):
         self.switcher.start()

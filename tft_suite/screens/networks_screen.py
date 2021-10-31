@@ -11,7 +11,6 @@ class NetworksScreen(Screen):
         super(NetworksScreen, self).__init__(**kwargs)
 
     def draw_screen(self) -> None:
-        rotation = 90
         y = 0
 
         # Draw a black filled box to clear the image.
@@ -33,5 +32,5 @@ class NetworksScreen(Screen):
         y -= 10
 
         # Display image.
-        self.display.image(self.image, rotation)
+        self.display.image(self.image)
         time.sleep(0.1)
