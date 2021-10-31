@@ -28,7 +28,7 @@ from tft_suite.display import Display
 from tft_suite.screens.stats_screen import StatsScreen
 
 if __name__ == '__main__':
-    Display([
+    Display((135, 40), [
         (StatsScreen, ())
     ]).start()
 ```
