@@ -6,10 +6,10 @@ import subprocess
 
 class StatsScreen(Screen):
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super(StatsScreen, self).__init__(**kwargs)
 
-    def draw_screen(self):
+    def draw_screen(self) -> None:
         rotation = 90
         padding = -2
         top = padding
@@ -44,5 +44,6 @@ class StatsScreen(Screen):
         self.draw.text((x, y), Temp, font=self.font, fill="#FF00FF")
 
         # Display image.
-        self.display.image(self.image, rotation)
+        #self.display.image(self.image, rotation)
+        self.display.image(self.image)
         time.sleep(0.1)

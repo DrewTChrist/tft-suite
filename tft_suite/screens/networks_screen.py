@@ -7,11 +7,10 @@ from tft_suite.cmd_parser import iwlist_parser
 
 class NetworksScreen(Screen):
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super(NetworksScreen, self).__init__(**kwargs)
 
-    def draw_screen(self):
-        rotation = 90
+    def draw_screen(self) -> None:
         y = 0
 
         # Draw a black filled box to clear the image.
@@ -33,5 +32,5 @@ class NetworksScreen(Screen):
         y -= 10
 
         # Display image.
-        self.display.image(self.image, rotation)
+        self.display.image(self.image)
         time.sleep(0.1)

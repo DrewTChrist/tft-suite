@@ -7,14 +7,14 @@ from PIL import Image
 
 class ImageScreen(Screen):
 
-    def __init__(self, img_path, **kwargs):
+    def __init__(self, img_path: str, **kwargs) -> None:
         super(ImageScreen, self).__init__(**kwargs)
-        self.img_path = img_path
-        self.picture = Image.open(self.img_path)
+        self.img_path: str = img_path
+        self.picture: Image = Image.open(self.img_path)
         self.rotate_image()
         self.rescale_image()
 
-    def rotate_image(self):
+    def rotate_image(self) -> None:
         if self.display.rotation % 180 == 90:
             self.height = self.display.width  # we swap height/width to rotate it to landscape!
             self.width = self.display.height
@@ -22,7 +22,7 @@ class ImageScreen(Screen):
             self.width = self.display.width  # we swap height/width to rotate it to landscape!
             self.height = self.display.height
 
-    def rescale_image(self):
+    def rescale_image(self) -> None:
         image_ratio = self.picture.width / self.picture.height
         screen_ratio = self.width / self.height
         if screen_ratio < image_ratio:
@@ -36,5 +36,5 @@ class ImageScreen(Screen):
         y = scaled_height // 2 - self.height // 2
         self.picture = self.picture.crop((x, y, x + self.width, y + self.height))
     
-    def draw_screen(self):
+    def draw_screen(self) -> None:
         self.display.image(self.picture)
