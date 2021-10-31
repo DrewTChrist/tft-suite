@@ -42,29 +42,37 @@ class Display:
             }
         )
 
-    def set_offsets(self, size):
+    def create_display(self, size):
         if size[0] == 135:
-            self.display.x_offset = 53
-            self.display.y_offset = 40
-            #self.display.rotation = 90
+            return st7789.ST7789(
+                board.SPI(),
+                cs=digitalio.DigitalInOut(board.CE0),
+                dc=digitalio.DigitalInOut(board.D25),
+                rst=None,
+                baudrate=64000000,  # The pi can be very fast!
+                width=size[0],
+                height=size[1],
+                x_offset=53,
+                y_offset=40,
+                rotation=90
+            )
         elif size[0] == 240:
-            self.display.y_offset = 80
-        #    self.display.rotation = 180
+            return st7789.ST7789(
+                board.SPI(),
+                cs=digitalio.DigitalInOut(board.CE0),
+                dc=digitalio.DigitalInOut(board.D25),
+                rst=None,
+                baudrate=64000000,  # The pi can be very fast!
+                width=size[0],
+                height=size[1],
+                y_offset=80,
+                rotation=180
+            )
 
 
     def initialize_hardware(self, size):
         # Create the ST7789 display:
-        self.display = st7789.ST7789(
-            board.SPI(),
-            cs=digitalio.DigitalInOut(board.CE0),
-            dc=digitalio.DigitalInOut(board.D25),
-            rst=None,
-            baudrate=64000000,  # The pi can be very fast!
-            width=size[0],
-            height=size[1],
-            x_offset=53,
-            y_offset=40
-        )
+        self.display = self.create_display(size)
         self.backlight = digitalio.DigitalInOut(board.D22)
         self.backlight.switch_to_output()
         self.backlight.value = True
@@ -75,7 +83,6 @@ class Display:
         self.buttonA.switch_to_input()
         self.buttonB.switch_to_input()
 
-        self.set_offsets(size)
 
     def initialize_drawables(self):
         # flip these because the display is horizontal
@@ -83,25 +90,30 @@ class Display:
         self.width = self.display.height
 
         self.image = Image.new("RGB", (self.width, self.height))
-        rotation = 90
 
         self.draw = ImageDraw.Draw(self.image)
-        self.display.image(self.image, rotation)
+        self.display.image(self.image)
+
 
     def enable_backlight(self):
         self.backlight.value = True
         
+
     def toggle_backlight(self):
         self.backlight.value = not self.backlight.value
+
 
     def buttonA_pressed(self):
         return self.buttonA.value and not self.buttonB.value
 
+
     def buttonB_pressed(self):
         return self.buttonB.value and not self.buttonA.value
 
+
     def buttons_pressed(self):
         return not self.buttonA.value and not self.buttonB.value
+
 
     def start(self):
         self.switcher.start()
