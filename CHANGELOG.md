@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [0.3.1](https://github.com/drewtchrist/tft-suite/releases/tag/v0.3.1) - 2021-10-31
+### Added
+
+### Changed
+* Updated readme example... yes this needed released
+
+### Removed
+
 ## [0.3.0](https://github.com/drewtchrist/tft-suite/releases/tag/v0.3.0) - 2021-10-31
 ### Added
 * 240x240 support
