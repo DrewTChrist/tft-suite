@@ -1,7 +1,10 @@
 # tft-suite
 
 ## Description
-tft-suite is an active development library for creating and switching between different screens
+
+ARCHIVED
+
+tft-suite is a library for creating and switching between different screens
 on an Adafruit Mini PiTFT. Adafruit offers these displays in two sizes [(135x240)](https://www.adafruit.com/product/4393) and [(240x240)](https://www.adafruit.com/product/4484).
 Both of these displays come with two small tactile buttons allowing users to interact with a raspberry pi or the display.
 
@@ -58,6 +61,4 @@ Display class like the first example.
 
 When the code is running, screens can be cycled through with either of the two buttons.
 The backlight can be turned off by quickly pressing both buttons at the same time.
-
-## License
 
